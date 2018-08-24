@@ -16,13 +16,12 @@
 
     <div>
         <div class="sect1">
-<h2 id="_http_booster">HTTP Booster</h2>
+<h2 id="_http_booster">Code Evaluator</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>An example of simple mapping of a business operation to a remote endpoint. By taking this approach, clients use the HTTP protocol as a transport mechanism to call services. Application engineers define the APIs using a broad interpretation of the REST fundamentals, encouraging freedom in design and quick prototyping.</p>
 </div>
 <div class="sect2">
-<h3 id="_using_the_greeting_service">Using the greeting service</h3>
+<h3 id="_using_the_greeting_service">Groovy Code Evaluator</h3>
 
 </div>
 </div>
@@ -30,14 +29,13 @@
         
         <form class="form-inline">
             <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="World">
-            </div>
+                <textarea id="code" rows="15" cols="80" placeholder="Code Here"></textarea>
+            </div> </br>
             <button id="invoke" type="submit" class="btn btn-success">Invoke</button>
         </form>
 
         <h3>Result:</h3>
-        <pre><code id="greeting-result">Invoke the service to see the result.</code></pre>
+        <pre><code id="code-result">Invoke the service to see the result.</code></pre>
     </div>
 </div>
 
@@ -49,13 +47,25 @@
 <script>
     $(document).ready(function() {
        $("#invoke").click(function(e) {
-          var n = $("#name").val() || "World";
-          $.getJSON("/api/evaluator?groovyCode=" + n, function(res) {
-              $("#greeting-result").text(JSON.stringify(res));
-          });
+          var n = $("#code").val();
+          var data = {
+            'groovyCode': n
+        };
+          $.ajax({
+        url: "/api/evaluator",
+        type: "POST",
+        data: JSON.stringify(data),
+        processData: false,
+        contentType: "application/json; charset=UTF-8",
+        success: function (res) {
+           $("#code-result").text(JSON.stringify(res));
+        }
+    });
           e.preventDefault();
        });
     });
+    
+    
 </script>
 
 </body>
