@@ -49,6 +49,7 @@ public class HttpApplication extends AbstractVerticle {
     }
 
     private void evaluator(RoutingContext rc) {
+        System.out.println("Testing ....");
         rc.request().bodyHandler(bodyHandler -> {
             final JsonObject body = bodyHandler.toJsonObject();
             String groovyCode = body.getString("groovyCode");
